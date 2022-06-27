@@ -1,4 +1,4 @@
-import { useState, ReactNode, FC, useEffect, useMemo } from 'react';
+import { useState, ReactNode, FC, useEffect } from 'react';
 
 import AuthContext, { ICredentials, IUser } from './AuthContext';
 import { httpLoginUser, httpLogoutUser } from '../../services/LoginService';
