@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faCar, faMountainCity, faPlane, faTaxi } from '@fortawesome/free-solid-svg-icons';
+
+import Searchbar from './Searchbar';
 
 const Container = styled.div`
   background-color: #003580;
@@ -11,13 +12,15 @@ const Container = styled.div`
     text-white
     flex
     justify-center
+
+    relative
   `}
 `;
 
 const HeaderContainer = styled.div`
   ${tw`
     w-full
-    max-w-screen-lg
+    max-w-5xl
     mt-5
     mb-24
   `}
@@ -103,6 +106,7 @@ const Header: FC = () => {
           with a free Booking account
         </Slogan>
         <CTAButton>Sign in / Register</CTAButton>
+        <Searchbar />
       </HeaderContainer>
     </Container>
   );
