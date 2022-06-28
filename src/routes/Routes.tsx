@@ -1,24 +1,14 @@
-import { FC, Suspense } from 'react';
+import React, { FC, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import RequireAuth from '../RequireAuth';
-import Signin from '../Signin';
-import Hotel from '../Hotel';
+import Home from '../components/Home';
 
 const Router: FC = () => {
 
   return (
     <Suspense fallback={<div />}>
       <Routes>
-        <Route path="/signin" element={<Signin />} />
-        <Route
-          path="/hotel"
-          element={
-            <RequireAuth>
-              <Hotel />
-            </RequireAuth>
-          }
-        />
+        <Route path="/" element={<Home />} />
       </Routes>
     </Suspense>
   );

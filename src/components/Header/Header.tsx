@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
@@ -100,7 +101,7 @@ const Header: FC = () => {
             <span>Airport taxis</span>
           </ListItem>
         </HeaderList>
-        <Title>A lifetime of discounts? It's Genius.</Title>
+        <Title>A lifetime of discounts? It&apos;s Genius.</Title>
         <Slogan>
           Get rewarded for your travels - unlock instant savings of 10% or more
           with a free Booking account

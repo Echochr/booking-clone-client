@@ -1,7 +1,8 @@
+import React from 'react';
 import { FC } from 'react';
 
-import Navbar from './components/Navbar';
-import Header from './components/Header';
+import Navbar from '../Navbar';
+import Header from '../Header';
 
 const Home: FC = () => {
   return (
