@@ -69,11 +69,76 @@ const SearchButton = styled.button`
   `}
 `;
 
+const OptionsPicker = styled.div`
+  ${tw`
+    absolute
+    top-14
+    bg-white
+    text-gray-400
+    p-2
+    rounded-md
+    shadow-md
+  `}
+`;
+
+const OptionsItem = styled.div`
+  ${tw`
+    w-56
+    flex
+    justify-between
+    p-2.5
+  `}
+`;
+
+const OptionsText = styled.span``;
+
+const OptionsControlGroup = styled.div`
+  ${tw`
+    flex
+    items-center
+    gap-4
+  `}
+`;
+
+const OptionsButton = styled.button`
+  border: 1px solid #0071c2;
+  color: #0071c2;
+  ${tw`
+    w-8
+    h-8
+    bg-white
+    cursor-pointer
+    rounded-sm
+
+    disabled:bg-gray-200
+    disabled:text-gray-400
+    disabled:border-gray-400
+    disabled:cursor-not-allowed
+  `}
+`;
+
+const OptionsNumber = styled.span`
+  ${tw`
+    w-5
+    text-center
+  `}
+`;
+
 interface IDateRange {
   startDate?: Date;
   endDate?: Date;
   key?: string;
 }
+
+interface IOptions {
+  adult: number;
+  children: number;
+  room: number;
+}
+
+type OptionsName = 'adult' | 'children' | 'room';
+
+type Operations = 'inc' | 'dec';
 
 const Searchbar: FC = () => {
   const [dateRange, setDateRange] = useState<IDateRange[]>([{
@@ -81,10 +146,38 @@ const Searchbar: FC = () => {
     endDate: new Date(),
     key: 'selection',
   }]);
-  const [openDatePicker, setOpenDatePicker] = useState<boolean>(false);
+  const [openDatePicker, setOpenDatePicker] = useState(false);
   const handleOpenDatePicker = useCallback(() => {
     setOpenDatePicker(!openDatePicker);
+    setOpenOptionsPicker(false);
   }, [openDatePicker]);
+
+  const [options, setOptions] = useState<IOptions>({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+  const handleOptionsChange = useCallback((name: OptionsName, operation: Operations) => {
+    if (operation === 'inc') {
+      const newValue: number = options[name] += 1;
+      setOptions((prev) => ({
+        ...prev,
+        [name]: newValue,
+      }));
+    } else if (operation === 'dec') {
+      const newValue: number = options[name] -= 1;
+      setOptions((prev) => ({
+        ...prev,
+        [name]: newValue,
+      }));
+    }
+  }, [options]);
+
+  const [openOptionsPicker, setOpenOptionsPicker] = useState(false);
+  const handleOpenOptionsPicker = useCallback(() => {
+    setOpenOptionsPicker(!openOptionsPicker);
+    setOpenDatePicker(false);
+  }, [openOptionsPicker]);
 
   const startDateDisplay = format(dateRange[0].startDate || new Date(), 'dd/MM/yyyy');
   const endDateDisplay = format(dateRange[0].endDate || new Date(), 'dd/MM/yyyy');
@@ -115,7 +208,48 @@ const Searchbar: FC = () => {
         <Icon>
           <FontAwesomeIcon icon={faPerson} />
         </Icon>
-        <span>2 adults 2 children 1 room</span>
+        <span onClick={handleOpenOptionsPicker}>{`${options.adult} adult・${options.children} children・${options.room} room`}</span>
+        {openOptionsPicker && <OptionsPicker>
+          <OptionsItem>
+            <OptionsText>Adult</OptionsText>
+            <OptionsControlGroup>
+              <OptionsButton
+                onClick={() => handleOptionsChange('adult', 'dec')}
+                disabled={options.adult === 1}
+              >
+                -
+              </OptionsButton>
+              <OptionsNumber>{`${options.adult}`}</OptionsNumber>
+              <OptionsButton onClick={() => handleOptionsChange('adult', 'inc')}>+</OptionsButton>
+            </OptionsControlGroup>
+          </OptionsItem>
+          <OptionsItem>
+            <OptionsText>Children</OptionsText>
+            <OptionsControlGroup>
+              <OptionsButton
+                onClick={() => handleOptionsChange('children', 'dec')}
+                disabled={options.children === 0}
+              >
+                -
+              </OptionsButton>
+              <OptionsNumber>{`${options.children}`}</OptionsNumber>
+              <OptionsButton onClick={() => handleOptionsChange('children', 'inc')}>+</OptionsButton>
+            </OptionsControlGroup>
+          </OptionsItem>
+          <OptionsItem>
+            <OptionsText>Room</OptionsText>
+            <OptionsControlGroup>
+              <OptionsButton
+                onClick={() => handleOptionsChange('room', 'dec')}
+                disabled={options.room === 1}
+              >
+                -
+              </OptionsButton>
+              <OptionsNumber>{`${options.room}`}</OptionsNumber>
+              <OptionsButton onClick={() => handleOptionsChange('room', 'inc')}>+</OptionsButton>
+            </OptionsControlGroup>
+          </OptionsItem>
+        </OptionsPicker>}
       </SearchItem>
       <SearchItem>
         <SearchButton>Search</SearchButton>
