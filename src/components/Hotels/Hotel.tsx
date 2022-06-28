@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import useAuth from './providers/auth/useAuth';
+import useAuth from '../../providers/auth/useAuth';
 
 export default function Hotel() {
   const { signout } = useAuth();

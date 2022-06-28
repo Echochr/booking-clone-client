@@ -5,14 +5,13 @@ import tw from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faCar, faMountainCity, faPlane, faTaxi } from '@fortawesome/free-solid-svg-icons';
 
-import Searchbar from './Searchbar';
-
 const Container = styled.div`
   background-color: #003580;
   ${tw`
     text-white
     flex
     justify-center
+    h-20
 
     relative
   `}
@@ -50,31 +49,6 @@ const ListItem = styled.div`
   `}
 `;
 
-const Title = styled.h1`
-  ${tw`
-    font-bold
-    text-3xl
-    mt-10
-  `}
-`;
-
-const Slogan = styled.p`
-  ${tw`
-    py-5
-  `}
-`;
-
-const CTAButton = styled.button`
-  ${tw`
-    bg-[#0071c2]
-    border-none
-    font-medium
-    p-2.5
-    cursor-pointer
-    rounded-sm
-  `}
-`;
-
 const Header: FC = () => {
   return (
     <Container>
@@ -101,13 +75,6 @@ const Header: FC = () => {
             <span>Airport taxis</span>
           </ListItem>
         </HeaderList>
-        <Title>A lifetime of discounts? It&apos;s Genius.</Title>
-        <Slogan>
-          Get rewarded for your travels - unlock instant savings of 10% or more
-          with a free Booking account
-        </Slogan>
-        <CTAButton>Sign in / Register</CTAButton>
-        <Searchbar />
       </HeaderContainer>
     </Container>
   );

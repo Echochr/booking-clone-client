@@ -1,14 +1,12 @@
 import React from 'react';
 import { FC } from 'react';
 
-import Navbar from '../Navbar';
-import Header from '../Header';
+import Hero from '../Hero';
 
 const Home: FC = () => {
   return (
     <>
-      <Navbar />
-      <Header />
+      <Hero />
     </>
   );
 };

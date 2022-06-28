@@ -1,16 +1,20 @@
 import React, { FC, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Home from '../components/Home';
+import Skeleton from '../layouts/Skeleton';
+import Home from '../components/Home'; 
+import Hotel from '../components/Hotels';
 
 const Router: FC = () => {
-
   return (
-    <Suspense fallback={<div />}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </Suspense>
+    <Skeleton>
+      <Suspense fallback={<div />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/hotel" element={<Hotel />} />
+        </Routes>
+      </Suspense>
+    </Skeleton>
   );
 };
 
