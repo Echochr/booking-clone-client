@@ -9,6 +9,7 @@ const Container = styled.div`
     flex
     justify-between
     gap-4
+    mb-6
   `}
 `;
 

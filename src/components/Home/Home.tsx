@@ -5,6 +5,7 @@ import tw from 'twin.macro';
 import Hero from '../Hero';
 import City from '../City';
 import Properties from '../Properties';
+import Featured from '../Featured';
 
 const ContentContainer = styled.div`
   ${tw`
@@ -33,6 +34,7 @@ const Home: FC = () => {
         <ContentSubContainer>
           <Properties />
           <City />
+          <Featured />
         </ContentSubContainer>
       </ContentContainer>
     </>
