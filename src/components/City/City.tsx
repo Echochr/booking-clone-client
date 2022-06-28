@@ -2,9 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
-import Barcelona from '../../public/images/barcelona.jpeg';
-import London from '../../public/images/london.jpeg';
-import Bali from '../../public/images/bali.jpeg';
+import IMAGES from '../../constants/Images';
 
 const Container = styled.div`
   ${tw`
@@ -16,6 +14,7 @@ const Container = styled.div`
 
 const Item = styled.div`
   ${tw`
+    cursor-pointer
     relative
   `}
 `;
@@ -55,17 +54,17 @@ const City: FC = () => {
   return (
     <Container>
       <Item>
-        <Image src={Barcelona} />
+        <Image src={IMAGES.Barcelona} />
         <Title>Barcelona</Title>
         <Text>23 properties</Text>
       </Item>
       <Item>
-        <Image src={London} />
+        <Image src={IMAGES.London} />
         <Title>London</Title>
         <Text>15 properties</Text>
       </Item>
       <Item>
-        <Image src={Bali} />
+        <Image src={IMAGES.Bali} />
         <Title>Bali</Title>
         <Text>8 properties</Text>
       </Item>
