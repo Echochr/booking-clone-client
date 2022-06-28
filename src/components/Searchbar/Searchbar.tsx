@@ -47,6 +47,7 @@ const SearchItem = styled.div`
     ${tw`
       absolute
       top-14
+      z-10
     `}
   }
 `;
@@ -78,6 +79,7 @@ const OptionsPicker = styled.div`
     p-2
     rounded-md
     shadow-md
+    z-10
   `}
 `;
 
