@@ -1,8 +1,12 @@
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faCalendarDays, faPerson } from '@fortawesome/free-solid-svg-icons';
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import { format } from 'date-fns';
 
 const Container = styled.div`
   ${tw`
@@ -38,6 +42,13 @@ const SearchItem = styled.div`
       cursor-pointer
     `}
   }
+
+  .DateRange {
+    ${tw`
+      absolute
+      top-14
+    `}
+  }
 `;
 
 const Icon = styled.div`
@@ -58,7 +69,26 @@ const SearchButton = styled.button`
   `}
 `;
 
+interface IDateRange {
+  startDate?: Date;
+  endDate?: Date;
+  key?: string;
+}
+
 const Searchbar: FC = () => {
+  const [dateRange, setDateRange] = useState<IDateRange[]>([{
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection',
+  }]);
+  const [openDatePicker, setOpenDatePicker] = useState<boolean>(false);
+  const handleOpenDatePicker = useCallback(() => {
+    setOpenDatePicker(!openDatePicker);
+  }, [openDatePicker]);
+
+  const startDateDisplay = format(dateRange[0].startDate || new Date(), 'dd/MM/yyyy');
+  const endDateDisplay = format(dateRange[0].endDate || new Date(), 'dd/MM/yyyy');
+
   return (
     <Container>
       <SearchItem>
@@ -71,7 +101,15 @@ const Searchbar: FC = () => {
         <Icon>
           <FontAwesomeIcon icon={faCalendarDays} />
         </Icon>
-        <span>date to date</span>
+        <span onClick={handleOpenDatePicker}>{`${startDateDisplay} to ${endDateDisplay}`}</span>
+        {openDatePicker && <DateRange
+          editableDateInputs={true}
+          onChange={(item) => setDateRange([item.selection])}
+          moveRangeOnFirstSelection={false}
+          ranges={dateRange}
+          minDate={new Date()}
+          className="DateRange"
+        />}
       </SearchItem>
       <SearchItem>
         <Icon>
