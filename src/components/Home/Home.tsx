@@ -6,6 +6,7 @@ import Hero from '../Hero';
 import City from '../City';
 import Properties from '../Properties';
 import Featured from '../Featured';
+import Newsletter from '../Newsletter';
 
 const ContentContainer = styled.div`
   ${tw`
@@ -37,6 +38,7 @@ const Home: FC = () => {
           <Featured />
         </ContentSubContainer>
       </ContentContainer>
+      <Newsletter />
     </>
   );
 };
