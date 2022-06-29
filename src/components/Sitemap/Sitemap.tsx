@@ -31,14 +31,14 @@ const Columns = styled.div`
   `}
 `;
 
-const Column = styled.div`
+const Column = styled.ul`
   ${tw`
     flex
     flex-col
     gap-1.5
   `}
 
-  span {
+  li {
     ${tw`
       cursor-pointer
     `}
@@ -58,19 +58,19 @@ const Sitemap: FC = () => {
       <Container>
         <Columns>
           <Column>
-            {SITEMAP.column1.map((item, idx) => <span key={idx}>{item}</span>)}
+            {SITEMAP.column1.map((item, idx) => <li key={idx}>{item}</li>)}
           </Column>
           <Column>
-            {SITEMAP.column2.map((item, idx) => <span key={idx}>{item}</span>)}
+            {SITEMAP.column2.map((item, idx) => <li key={idx}>{item}</li>)}
           </Column>
           <Column>
-            {SITEMAP.column3.map((item, idx) => <span key={idx}>{item}</span>)}
+            {SITEMAP.column3.map((item, idx) => <li key={idx}>{item}</li>)}
           </Column>
           <Column>
-            {SITEMAP.column4.map((item, idx) => <span key={idx}>{item}</span>)}
+            {SITEMAP.column4.map((item, idx) => <li key={idx}>{item}</li>)}
           </Column>
           <Column>
-            {SITEMAP.column5.map((item, idx) => <span key={idx}>{item}</span>)}
+            {SITEMAP.column5.map((item, idx) => <li key={idx}>{item}</li>)}
           </Column>
         </Columns>
         <Statement>Copyright &copy; 1996-2022 Booking&trade;. All rights reserved.</Statement>
