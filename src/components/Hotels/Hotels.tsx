@@ -1,31 +1,48 @@
 import React, { FC } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 
-import useAuth from '../../providers/auth/useAuth';
+import SearchWidget from './SearchWidget';
+
+const Section = styled.section`
+  ${tw`
+    flex
+    justify-center
+    mt-6
+  `}
+`;
+
+const Container = styled.div`
+  ${tw`
+    w-full
+    max-w-5xl
+    flex
+    gap-2
+  `}
+`;
+
+const WidgetContainer = styled.div`
+  ${tw`
+    w-[35%]
+  `}
+`;
+
+const ListingContainer = styled.div`
+  ${tw`
+    w-[65%]
+  `}
+`;
 
 const Hotels: FC = () => {
-  const { signout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleClick = async () => {
-    const res = await axios.get('./hotels/');
-    console.log(res.data);
-  };
-
-  const handleLogout = () => {
-    signout(() => navigate('/signin'));
-  };
-
   return (
-    <>
-      <h1>Hotel Page</h1>
-      <button type="button" onClick={handleClick}>
-        Show hotel data
-      </button>
-      <button onClick={handleLogout}>Logout</button>
-    </>
+    <Section>
+      <Container>
+        <WidgetContainer>
+          <SearchWidget />
+        </WidgetContainer>
+      </Container>
+    </Section>
   );
-}
+};
 
 export default Hotels;
