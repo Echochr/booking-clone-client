@@ -1,0 +1,40 @@
+const SITEMAP = {
+  column1: [
+    'Countries',
+    'Regions',
+    'Cities',
+    'Districts',
+    'Airports',
+    'Hotels',
+    'Places of interest',
+  ],
+  column2: ['Homes', 'Apartments', 'Resorts', 'Villas', 'Hostels', 'B&Bs', 'Guest houses'],
+  column3: [
+    'Unique places to stay',
+    'All destinations',
+    'Discover',
+    'Reviews',
+    'Unpacked: Travel articles',
+    'Travel communities',
+    'Seasonal and holiday deals',
+  ],
+  column4: ['Car rental', 'Flight finder', 'Restaurant reservations', 'Booking for Travel Agents'],
+  column5: [
+    'Coronavirus (COVID-19) FAQs',
+    'About Booking',
+    'Customer Service Help',
+    'Partner help',
+    'Careers',
+    'Sustainability',
+    'Press center',
+    'Safety Resource Center',
+    'Investor relations',
+    'Terms & conditions',
+    'Partner dispute',
+    'How We Work',
+    'Privacy & cookie statement',
+    'Corporate contact',
+  ],
+};
+
+export default SITEMAP;
