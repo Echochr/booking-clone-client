@@ -7,6 +7,7 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   ${tw`
@@ -143,6 +144,7 @@ type OptionsName = 'adult' | 'children' | 'room';
 type Operations = 'inc' | 'dec';
 
 const Searchbar: FC = () => {
+  const [destination, setDestination] = useState('');
   const [dateRange, setDateRange] = useState<IDateRange[]>([{
     startDate: new Date(),
     endDate: new Date(),
@@ -184,13 +186,18 @@ const Searchbar: FC = () => {
   const startDateDisplay = format(dateRange[0].startDate || new Date(), 'dd/MM/yyyy');
   const endDateDisplay = format(dateRange[0].endDate || new Date(), 'dd/MM/yyyy');
 
+  const navigate = useNavigate();
+  const handleSearch = useCallback(() => {
+    navigate('hotels', { state: { destination, dateRange, options }});
+  }, [destination, dateRange, options]);
+
   return (
     <Container>
       <SearchItem>
         <Icon>
           <FontAwesomeIcon icon={faBed} />
         </Icon>
-        <input type="text" placeholder="Where are you going?" />
+        <input type="text" placeholder="Where are you going?" onChange={(evt) => setDestination(evt.target.value)} />
       </SearchItem>
       <SearchItem>
         <Icon>
@@ -254,7 +261,7 @@ const Searchbar: FC = () => {
         </OptionsPicker>}
       </SearchItem>
       <SearchItem>
-        <SearchButton>Search</SearchButton>
+        <SearchButton onClick={handleSearch}>Search</SearchButton>
       </SearchItem>
     </Container>
   );

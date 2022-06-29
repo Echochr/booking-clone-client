@@ -1,3 +1,3 @@
-import Hotel from './Hotel';
+import Hotels from './Hotels';
 
-export default Hotel;
+export default Hotels;

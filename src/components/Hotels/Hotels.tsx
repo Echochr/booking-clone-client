@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../providers/auth/useAuth';
 
-export default function Hotel() {
+const Hotels: FC = () => {
   const { signout } = useAuth();
   const navigate = useNavigate();
 
@@ -27,3 +27,5 @@ export default function Hotel() {
     </>
   );
 }
+
+export default Hotels;

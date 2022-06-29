@@ -11,7 +11,7 @@ const Router: FC = () => {
       <Suspense fallback={<div />}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/hotel" element={<Hotel />} />
+          <Route path="/hotels" element={<Hotel />} />
         </Routes>
       </Suspense>
     </Skeleton>
