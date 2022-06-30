@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 
 import Skeleton from '../layouts/Skeleton';
 import Home from '../components/Home'; 
-import Hotel from '../components/Hotels';
+import Hotels from '../components/Hotels';
+import Hotel from '../components/Hotel';
 import NotFound from '../components/NotFound';
 
 const Router: FC = () => {
@@ -12,7 +13,8 @@ const Router: FC = () => {
       <Suspense fallback={<div />}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/hotels" element={<Hotel />} />
+          <Route path="/hotels" element={<Hotels />} />
+          <Route path="/hotel/:id" element={<Hotel />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Suspense>
