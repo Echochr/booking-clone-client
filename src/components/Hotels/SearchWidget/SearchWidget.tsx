@@ -32,7 +32,16 @@ const Item = styled.div`
   ${tw`
     flex
     flex-col
+    relative
   `}
+  }
+
+  .DateRange {
+    ${tw`
+      absolute
+      top-16
+      z-10
+    `}
   }
 `;
 
@@ -112,7 +121,6 @@ const SearchWidget: FC = () => {
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const handleOpenDatePicker = useCallback(() => {
     setOpenDatePicker(!openDatePicker);
-    // setOpenOptionsPicker(false);
   }, [openDatePicker]);
 
   return (

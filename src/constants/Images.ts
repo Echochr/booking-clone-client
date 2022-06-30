@@ -9,6 +9,7 @@ import BarcelonaProp1 from '../public/images/barcelona-property.jpeg';
 import LondonProp1 from '../public/images/london-property.jpeg';
 import BaliProp1 from '../public/images/bali-property.jpeg';
 import ParisProp1 from '../public/images/paris-property.jpeg';
+import HotelListingCardDefault from '../public/images/hotel-listing-card-default.webp';
 
 const IMAGES = {
   Barcelona,
@@ -22,6 +23,7 @@ const IMAGES = {
   LondonProp1,
   BaliProp1,
   ParisProp1,
+  HotelListingCardDefault,
 };
 
 export default IMAGES;

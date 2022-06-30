@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 import SearchWidget from './SearchWidget';
+import HotelListings from '../HotelListings';
 
 const Section = styled.section`
   ${tw`
@@ -17,19 +18,19 @@ const Container = styled.div`
     w-full
     max-w-5xl
     flex
-    gap-2
+    gap-4
   `}
 `;
 
 const WidgetContainer = styled.div`
   ${tw`
-    w-[35%]
+    w-[30%]
   `}
 `;
 
 const ListingContainer = styled.div`
   ${tw`
-    w-[65%]
+    w-[70%]
   `}
 `;
 
@@ -40,6 +41,9 @@ const Hotels: FC = () => {
         <WidgetContainer>
           <SearchWidget />
         </WidgetContainer>
+        <ListingContainer>
+          <HotelListings />
+        </ListingContainer>
       </Container>
     </Section>
   );
