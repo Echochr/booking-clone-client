@@ -8,7 +8,6 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
 import { IDateRange, defaultDateRange, IOptions, defaultOptions } from '../../Searchbar';
-import capitalize from '../../../utils/capitalize';
 
 const Container = styled.div`
   ${tw`
@@ -57,6 +56,7 @@ const Input = styled.input`
     px-4
     rounded-sm
     text-gray-600
+    capitalize
   `}
 `;
 
@@ -128,7 +128,7 @@ const SearchWidget: FC = () => {
       <Title>Search</Title>
       <Item>
         <Label>Destination/property name:</Label>
-        <Input type="text" placeholder="Where are you going?" defaultValue={capitalize(destination)} />
+        <Input type="text" placeholder="Where are you going?" defaultValue={destination} />
       </Item>
       <Item>
         <Label>Check-in date</Label>
