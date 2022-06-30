@@ -7,7 +7,7 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-import { IDateRange, IOptions } from '../../Searchbar';
+import { IDateRange, defaultDateRange, IOptions, defaultOptions } from '../../Searchbar';
 import capitalize from '../../../utils/capitalize';
 
 const Container = styled.div`
@@ -114,9 +114,9 @@ const SearchButton = styled.button`
 
 const SearchWidget: FC = () => {
   const { state }: any = useLocation();
-  const [destination, setDestination] = useState<string>(state.destination);
-  const [dateRange, setDateRange] = useState<IDateRange[]>(state.dateRange);
-  const [options, setOptions] = useState<IOptions>(state.options);
+  const [destination, setDestination] = useState(state?.destination || '');
+  const [dateRange, setDateRange] = useState<IDateRange[]>(state?.dateRange || defaultDateRange);
+  const [options, setOptions] = useState<IOptions>(state?.options || defaultOptions);
 
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const handleOpenDatePicker = useCallback(() => {
@@ -133,8 +133,8 @@ const SearchWidget: FC = () => {
       <Item>
         <Label>Check-in date</Label>
         <Span onClick={handleOpenDatePicker}>
-          {format(dateRange[0].startDate || new Date(), 'dd/MM/yyyy')} to{' '}
-          {format(dateRange[0].endDate || new Date(), 'dd/MM/yyyy')}
+          {format(dateRange[0]?.startDate || new Date(), 'dd/MM/yyyy')} to{' '}
+          {format(dateRange[0]?.endDate || new Date(), 'dd/MM/yyyy')}
         </Span>
         {openDatePicker && (
           <DateRange

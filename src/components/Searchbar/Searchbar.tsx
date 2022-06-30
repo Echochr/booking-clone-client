@@ -133,11 +133,23 @@ export interface IDateRange {
   key?: string;
 }
 
+export const defaultDateRange: IDateRange[] = [{
+  startDate: new Date(),
+  endDate: new Date(),
+  key: 'selection',
+}];
+
 export interface IOptions {
   adult: number;
   children: number;
   room: number;
 }
+
+export const defaultOptions: IOptions = {
+  adult: 1,
+  children: 0,
+  room: 1,
+};
 
 type OptionsName = 'adult' | 'children' | 'room';
 
@@ -145,22 +157,14 @@ type Operations = 'inc' | 'dec';
 
 const Searchbar: FC = () => {
   const [destination, setDestination] = useState('');
-  const [dateRange, setDateRange] = useState<IDateRange[]>([{
-    startDate: new Date(),
-    endDate: new Date(),
-    key: 'selection',
-  }]);
+  const [dateRange, setDateRange] = useState<IDateRange[]>(defaultDateRange);
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const handleOpenDatePicker = useCallback(() => {
     setOpenDatePicker(!openDatePicker);
     setOpenOptionsPicker(false);
   }, [openDatePicker]);
 
-  const [options, setOptions] = useState<IOptions>({
-    adult: 1,
-    children: 0,
-    room: 1,
-  });
+  const [options, setOptions] = useState<IOptions>(defaultOptions);
   const handleOptionsChange = useCallback((name: OptionsName, operation: Operations) => {
     if (operation === 'inc') {
       const newValue: number = options[name] += 1;
