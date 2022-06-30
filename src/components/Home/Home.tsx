@@ -39,8 +39,6 @@ const Home: FC = () => {
           <Featured />
         </ContentSubContainer>
       </ContentContainer>
-      <Newsletter />
-      <Sitemap />
     </>
   );
 };
