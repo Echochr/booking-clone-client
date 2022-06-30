@@ -18,6 +18,8 @@ const HotelListings: FC = () => {
       <HotelListingCard />
       <HotelListingCard />
       <HotelListingCard />
+      <HotelListingCard />
+      <HotelListingCard />
     </Container>
   );
 };
