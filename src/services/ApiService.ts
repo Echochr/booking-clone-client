@@ -9,3 +9,9 @@ export async function getPropertyCountByCity() {
   query.set('cities', 'Barcelona,London,Bali');
   return fetchData(`./hotels/countByCity?${query.toString()}`);
 }
+
+export async function getPropertyCountByType() {
+  const query = new URLSearchParams();
+  query.set('types', 'Hotel,Apartment,Resort,Villas');
+  return fetchData(`./hotels/countByType?${query.toString()}`);
+}

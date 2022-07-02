@@ -1,8 +1,11 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { useQuery } from 'react-query';
+import { BeatLoader } from 'react-spinners';
 
 import IMAGES from '../../constants/Images';
+import { getPropertyCountByType } from '../../services/ApiService';
 
 const Heading = styled.h4`
   ${tw`
@@ -45,34 +48,30 @@ const Text = styled.h5`
   ${tw`
     text-sm
     text-gray-500
+    lowercase
   `}
 `;
 
+interface IPropCountByType {
+  type: 'Hotel' | 'Apartment' | 'Resort' | 'Villas';
+  count: number;
+}
+
 const Properties: FC = () => {
+  const { data, isLoading } = useQuery('propCountByType', getPropertyCountByType);
+
   return (
     <>
       <Heading>Browse by properties type</Heading>
       <ItemsContainer>
-      <Item>
-        <Image src={IMAGES.Hotel} />
-        <Title>Hotels</Title>
-        <Text>870 hotels</Text>
-      </Item>
-      <Item>
-        <Image src={IMAGES.Apartment} />
-        <Title>Apartments</Title>
-        <Text>236 apartments</Text>
-      </Item>
-      <Item>
-        <Image src={IMAGES.Resort} />
-        <Title>Resort</Title>
-        <Text>28 resorts</Text>
-      </Item>
-      <Item>
-        <Image src={IMAGES.Villa} />
-        <Title>Villas</Title>
-        <Text>128 villas</Text>
-      </Item>
+      {isLoading && <BeatLoader color="#0071c2" />}
+      {data?.map(({ type, count }: IPropCountByType, idx: number) => (
+        <Item key={idx}>
+          <Image src={IMAGES[type]} />
+          <Title>{type}</Title>
+          <Text>{count} {type}</Text>
+        </Item>
+      ))}
       </ItemsContainer>
     </>
   );

@@ -6,8 +6,6 @@ import Hero from '../Hero';
 import City from '../City';
 import Properties from '../Properties';
 import Featured from '../Featured';
-import Newsletter from '../Newsletter';
-import Sitemap from '../Sitemap';
 
 const ContentContainer = styled.div`
   ${tw`

@@ -4,7 +4,7 @@ import Bali from '../public/images/bali.jpeg';
 import Hotel from '../public/images/hotel.jpeg';
 import Apartment from '../public/images/apartment.jpeg';
 import Resort from '../public/images/resort.jpeg';
-import Villa from '../public/images/villa.jpeg';
+import Villas from '../public/images/villa.jpeg';
 import BarcelonaProp1 from '../public/images/barcelona-property.jpeg';
 import LondonProp1 from '../public/images/london-property.jpeg';
 import BaliProp1 from '../public/images/bali-property.jpeg';
@@ -18,7 +18,7 @@ const IMAGES = {
   Hotel,
   Apartment,
   Resort,
-  Villa,
+  Villas,
   BarcelonaProp1,
   LondonProp1,
   BaliProp1,
