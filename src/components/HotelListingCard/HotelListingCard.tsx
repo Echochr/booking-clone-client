@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { useNavigate } from 'react-router-dom';
 
 import IMAGES from '../../constants/Images';
+import { IHotel } from '../../interface/hotels.interface';
 
 const Card = styled.div`
   border: 1px solid;
@@ -64,7 +66,9 @@ const Tag = styled.span`
 
 const BoldText = styled.span`
   ${tw`
+    max-w-[300px]
     font-bold
+    truncate
   `}
 `;
 
@@ -90,6 +94,8 @@ const Ratings = styled.div`
 `;
 
 const Badge = styled.div`
+  min-width: 28px;
+  min-height: 28px;
   ${tw`
     bg-[#003580]
     text-white
@@ -97,6 +103,8 @@ const Badge = styled.div`
     text-sm
     rounded-md
     rounded-bl-none
+    flex
+    justify-center
   `}
 `;
 
@@ -132,30 +140,41 @@ const CTAButton = styled.button`
   `}
 `;
 
-const HotelListingCard: FC = () => {
-  return <Card>
-    <Image src={IMAGES.HotelListingCardDefault} />
-    <Information>
-      <HotelName>Hotel Tokyo Marunouchi</HotelName>
-      <span>2km from center</span>
-      <Tag>Free airport taxi</Tag>
-      <BoldText>Studio Apartment with Air conditioning</BoldText>
-      <span>Entire studio・1 bath room・21m<sup>2</sup> 1 full bed</span>
-      <GreenBoldText>Free cancellation</GreenBoldText>
-      <GreenText>You can cancel later, so lock in this great price today!</GreenText>
-    </Information>
-    <ExtraInfo>
-      <Ratings>
-        <span>Excellent</span>
-        <Badge>8.9</Badge>
-      </Ratings>
-      <CTADiv>
-        <Price>$320</Price>
-        <TOS>includes taxes and fees</TOS>
-        <CTAButton>See availability</CTAButton>
-      </CTADiv>
-    </ExtraInfo>
-  </Card>;
+interface IHotelListingCard {
+  hotel: IHotel;
+}
+
+const HotelListingCard: FC<IHotelListingCard> = ({ hotel }) => {
+  const navigate = useNavigate();
+  const handleGotoDetailPage = useCallback((hotelId: string) => {
+    navigate(`../hotel/${hotelId}`);
+  }, []);
+
+  return (
+    <Card>
+      <Image src={IMAGES.HotelListingCardDefault} />
+      <Information>
+        <HotelName>{hotel.name}</HotelName>
+        <span>{hotel.distance / 1000}km from center</span>
+        <Tag>Free airport taxi</Tag>
+        <BoldText>{hotel.description}</BoldText>
+        <span>Entire studio・1 bath room・21m<sup>2</sup> 1 full bed</span>
+        <GreenBoldText>Free cancellation</GreenBoldText>
+        <GreenText>You can cancel later, so lock in this great price today!</GreenText>
+      </Information>
+      <ExtraInfo>
+        <Ratings>
+          <span>Excellent</span>
+          <Badge>{hotel.rating}</Badge>
+        </Ratings>
+        <CTADiv>
+          <Price>${hotel.cheapestPrice}</Price>
+          <TOS>includes taxes and fees</TOS>
+          <CTAButton onClick={() => handleGotoDetailPage(hotel._id)}>See availability</CTAButton>
+        </CTADiv>
+      </ExtraInfo>
+    </Card>
+  );
 };
 
 export default HotelListingCard;

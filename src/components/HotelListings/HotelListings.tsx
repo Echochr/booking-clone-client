@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 import HotelListingCard from '../HotelListingCard';
+import { IHotel } from '../../interface/hotels.interface';
 
 const Container = styled.div`
   ${tw`
@@ -12,14 +13,19 @@ const Container = styled.div`
   `}
 `;
 
-const HotelListings: FC = () => {
+interface IHotelListingsProps {
+  hotels?: IHotel[];
+}
+
+const HotelListings: FC<IHotelListingsProps> = ({ hotels }) => {
   return (
     <Container>
-      <HotelListingCard />
-      <HotelListingCard />
-      <HotelListingCard />
-      <HotelListingCard />
-      <HotelListingCard />
+      {hotels?.map((hotel: IHotel) => (
+        <HotelListingCard
+          key={hotel._id}
+          hotel={hotel}
+        />
+      ))}
     </Container>
   );
 };

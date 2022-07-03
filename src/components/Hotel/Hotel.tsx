@@ -3,8 +3,13 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 
 import GalleryImages from '../../constants/HotelPhotos';
+import { getHotelById } from '../../services/ApiService';
+import NotFound from '../NotFound';
 
 const Section = styled.section`
   ${tw`
@@ -137,18 +142,29 @@ const CTADiv = styled.div`
 `;
 
 const Hotel: FC = () => {
+  const { id } = useParams();
+  const { data: hotel, isLoading, error } = useQuery('hotelDetails', () => getHotelById(id as string));
+
+  if (isLoading) {
+    return <BeatLoader color="#0071c2" />
+  }
+
+  if (error) {
+    return <NotFound />;
+  }
+
   return (
     <Section>
       <Container>
         <TopSection>
           <HotelInfo>
-            <HotelName>Daiwa Roynet Hotel Tokyo Ariake</HotelName>
+            <HotelName>{hotel.name}</HotelName>
             <Address>
               <FontAwesomeIcon icon={faLocationDot} />
-              100-0005 Tokyo-to, Chiyoda-ku Marunouchi 1-7-12, Japan
+              {hotel.address}
             </Address>
-            <Location>Excellent location - 800m from center</Location>
-            <Highlight>Book a stay over $180 at this property and get a free airport taxi</Highlight>
+            <Location>Excellent location - {hotel.distance}m from center</Location>
+            <Highlight>Book a stay over ${hotel.cheapestPrice} at this property and get a free airport taxi</Highlight>
           </HotelInfo>
           <CTAButton>Reserve or Book Now!</CTAButton>
         </TopSection>
@@ -157,7 +173,7 @@ const Hotel: FC = () => {
         </Gallery>
         <LowerSection>
           <Description>
-            <Slogan>Stay in the heart of Tokyo</Slogan>
+            <Slogan>{hotel.description}</Slogan>
             <DescriptionText>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, maiores commodi corrupti veniam maxime sapiente eius itaque inventore ipsum, eos, quidem voluptatibus cumque amet repellendus? Totam earum dolores ratione culpa.
               Cumque ad autem deleniti nihil rerum minus esse officia velit voluptate praesentium aperiam dolor enim provident quaerat ratione, odit a eos doloribus quibusdam accusamus veniam eaque sequi obcaecati. Eligendi, laboriosam!
@@ -166,8 +182,8 @@ const Hotel: FC = () => {
           </Description>
           <CTADiv>
             <span className="font-extrabold text-lg text-gray-700">Perfect for a 4-night stay!</span>
-            <p className="text-sm text-gray-600">Located in the real heart of Tokyo, this property has an excellent location score of 9.8</p>
-            <p className="text-xl"><span className="font-extrabold">$945</span> (4 nights)</p>
+            <p className="text-sm text-gray-600">{hotel.description}, this property has a great rating of {hotel.rating}</p>
+            <p className="text-xl"><span className="font-extrabold">${hotel.cheapestPrice * 4}</span> (4 nights)</p>
             <CTAButton>Reserve or Book Now!</CTAButton>
           </CTADiv>
         </LowerSection>

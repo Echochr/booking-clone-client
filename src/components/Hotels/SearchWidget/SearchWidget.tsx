@@ -112,11 +112,17 @@ const SearchButton = styled.button`
   `}
 `;
 
-const SearchWidget: FC = () => {
+interface ISearchWidget {
+  handleSearch: (destination: string, min: number, max: number) => void;
+}
+
+const SearchWidget: FC<ISearchWidget> = ({ handleSearch }) => {
   const { state }: any = useLocation();
   const [destination, setDestination] = useState(state?.destination || '');
   const [dateRange, setDateRange] = useState<IDateRange[]>(state?.dateRange || defaultDateRange);
   const [options, setOptions] = useState<IOptions>(state?.options || defaultOptions);
+  const [minPrice, setMinPrice] = useState(1);
+  const [maxPrice, setMaxPrice] = useState(9999);
 
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const handleOpenDatePicker = useCallback(() => {
@@ -128,7 +134,7 @@ const SearchWidget: FC = () => {
       <Title>Search</Title>
       <Item>
         <Label>Destination/property name:</Label>
-        <Input type="text" placeholder="Where are you going?" defaultValue={destination} />
+        <Input type="text" placeholder="Where are you going?" defaultValue={destination} onChange={(evt) => setDestination(evt.target.value)} />
       </Item>
       <Item>
         <Label>Check-in date</Label>
@@ -152,11 +158,21 @@ const SearchWidget: FC = () => {
         <OptionsContainer>
           <OptionsItem>
             <OptionsLabel>Min price <small>(per night)</small></OptionsLabel>
-            <OptionsInput type="number" />
+            <OptionsInput
+              type="number"
+              min={1}
+              max={999}
+              onChange={(evt) => setMinPrice(Number(evt.target.value))}
+            />
           </OptionsItem>
           <OptionsItem>
             <OptionsLabel>Max price <small>(per night)</small></OptionsLabel>
-            <OptionsInput type="number" />
+            <OptionsInput
+              type="number"
+              min={1}
+              max={999}
+              onChange={(evt) => setMaxPrice(Number(evt.target.value))}
+            />
           </OptionsItem>
           <OptionsItem>
             <OptionsLabel>Adult</OptionsLabel>
@@ -173,7 +189,9 @@ const SearchWidget: FC = () => {
         </OptionsContainer>
       </Item>
       <Item>
-        <SearchButton>Search</SearchButton>
+        <SearchButton onClick={() => handleSearch(destination, minPrice, maxPrice)}>
+          Search
+        </SearchButton>
       </Item>
     </Container>
   );

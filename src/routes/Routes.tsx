@@ -2,7 +2,7 @@ import React, { FC, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Skeleton from '../layouts/Skeleton';
-import Home from '../components/Home'; 
+import Home from '../components/Home';
 import Hotels from '../components/Hotels';
 import Hotel from '../components/Hotel';
 import NotFound from '../components/NotFound';
