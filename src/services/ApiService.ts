@@ -17,5 +17,5 @@ export async function getPropertyCountByType() {
 }
 
 export async function getAllFeaturedHotels() {
-  return fetchData('./hotels/featured');
+  return fetchData('./hotels?featured=true&limit=4&sort=city');
 }

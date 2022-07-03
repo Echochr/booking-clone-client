@@ -111,7 +111,7 @@ const Featured: FC = () => {
             <Ratings>
               <Badge>{hotel.rating}</Badge>
               <span>{RatingsLookup(hotel.rating)}</span>
-              <span>2,574 reviews</span>
+              <span>{Math.floor(Math.random() * 250)} reviews</span>
             </Ratings>
           </Item>
         ))}
