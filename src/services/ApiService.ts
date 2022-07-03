@@ -15,3 +15,7 @@ export async function getPropertyCountByType() {
   query.set('types', 'Hotel,Apartment,Resort,Villas');
   return fetchData(`./hotels/countByType?${query.toString()}`);
 }
+
+export async function getAllFeaturedHotels() {
+  return fetchData('./hotels/featured');
+}
