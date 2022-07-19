@@ -1,7 +1,10 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
+import { RootState } from '../../app/store';
 import Searchbar from '../Searchbar';
 
 const Container = styled.div`
@@ -49,6 +52,9 @@ const CTAButton = styled.button`
 `;
 
 const Hero: FC = () => {
+  const { isSignedIn } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+
   return (
     <Container>
       <SubContainer>
@@ -57,7 +63,7 @@ const Hero: FC = () => {
           Get rewarded for your travels - unlock instant savings of 10% or more with a free Booking
           account
         </Slogan>
-        <CTAButton>Sign in / Register</CTAButton>
+        {!isSignedIn && <CTAButton onClick={() => navigate('/signin')}>Sign in / Register</CTAButton>}
         <Searchbar />
       </SubContainer>
     </Container>
