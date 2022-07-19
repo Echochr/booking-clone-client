@@ -109,7 +109,7 @@ const Signin: FC = () => {
             <label htmlFor="password">Password</label>
             <TextField type="password" placeholder="Password" {...register('password')} required />
           </div>
-          <Button type="submit">{isLoading ? <BeatLoader size="5" color="#fff" /> : 'Register'}</Button>
+          <Button type="submit">{isLoading ? <BeatLoader size="5px" color="#fff" /> : 'Register'}</Button>
         </Form>
       </Container>
     </Section>

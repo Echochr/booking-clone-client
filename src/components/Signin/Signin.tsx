@@ -145,7 +145,7 @@ const Signin: FC = () => {
           <HelperText onClick={() => navigate('/register', { replace: true })}>
             Don&apos;t have an account?
           </HelperText>
-          <Button type="submit">{isLoading ? <BeatLoader size="5" color="#fff" /> : 'Sign In'}</Button>
+          <Button type="submit">{isLoading ? <BeatLoader size="5px" color="#fff" /> : 'Sign In'}</Button>
         </Form>
       </Container>
     </Section>
