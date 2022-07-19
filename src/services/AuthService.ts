@@ -1,11 +1,11 @@
 export async function setCredentials(id: string, isAdmin: boolean) {
-  window.sessionStorage.setItem('userId', id);
-  window.sessionStorage.setItem('isAdmin', JSON.stringify(isAdmin));
+  localStorage.setItem('userId', id);
+  localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
 }
 
 export function getCredentials() {
-  const userId = window.sessionStorage.getItem('userId');
-  const isAdmin = window.sessionStorage.getItem('isAdmin');
+  const userId = localStorage.getItem('userId');
+  const isAdmin = localStorage.getItem('isAdmin');
   if (userId && isAdmin) {
     return { 
       id: userId,
@@ -16,5 +16,5 @@ export function getCredentials() {
 }
 
 export async function resetCredentials() {
-  window.sessionStorage.clear();
+  localStorage.clear();
 }

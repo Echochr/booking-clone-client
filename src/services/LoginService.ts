@@ -4,7 +4,7 @@ import { ICredentials, IUser } from '../providers/auth/AuthContext';
 import { setCredentials, resetCredentials } from './AuthService';
 
 export async function httpLoginUser(newUser: IUser): Promise<ICredentials> {
-  const { status, data } = await axios.post('./auth/login', newUser);
+  const { status, data } = await axios.post('/auth/login', newUser);
 
   if (status === 200) {
     setCredentials(data.id, data.isAdmin);
@@ -14,6 +14,6 @@ export async function httpLoginUser(newUser: IUser): Promise<ICredentials> {
 }
 
 export async function httpLogoutUser() {
-  await axios.get('./auth/logout');
+  await axios.get('/auth/logout');
   resetCredentials();
 }
