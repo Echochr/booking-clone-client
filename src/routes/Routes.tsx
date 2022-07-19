@@ -8,6 +8,7 @@ import Home from '../components/Home';
 import Hotels from '../components/Hotels';
 import Hotel from '../components/Hotel';
 import NotFound from '../components/NotFound';
+import Register from '../components/Register';
 import Signin from '../components/Signin';
 
 const Router: FC = () => {
@@ -17,6 +18,7 @@ const Router: FC = () => {
         <Suspense fallback={<div />}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/hotel/:id" element={<Hotel />} />

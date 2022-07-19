@@ -70,7 +70,7 @@ const Navbar: FC = () => {
       <SubContainer>
         <Logo onClick={() => navigate('/', { replace: true })}>Booking</Logo>
         <NavItems>
-          {!isSignedIn && <NavButton>Register</NavButton>}
+          {!isSignedIn && <NavButton onClick={() => navigate('/register')}>Register</NavButton>}
           {!isSignedIn && <NavButton onClick={() => navigate('/signin')}>Sign In</NavButton>}
           {isSignedIn && <NavButton onClick={handleSignout}>Sign Out</NavButton>}
         </NavItems>

@@ -5,12 +5,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 import { AppDispatch, RootState } from '../../app/store';
 import { IUser } from '../../providers/auth/AuthContext';
-import { signin, resetHelperStates } from '../../features/auth/authSlice';
+import { registerNewUser, resetHelperStates } from '../../features/auth/authSlice';
 
 const Section = styled.section`
   ${tw`
@@ -25,24 +23,8 @@ const Container = styled.div`
     w-full
     max-w-5xl
     flex
-    flex-col
     justify-center
-    items-center
     gap-4
-  `}
-`;
-
-const Demo = styled.div`
-  ${tw`
-    bg-[#febb02]
-    w-1/2
-    py-2.5
-    px-4
-    rounded-md
-    text-sm
-
-    flex
-    items-center
   `}
 `;
 
@@ -78,17 +60,6 @@ const TextField = styled.input`
   `}
 `;
 
-const HelperText = styled.p`
-  ${tw`
-    text-sm
-    font-semibold
-    underline
-    text-[#0071c2]
-    max-w-max
-    cursor-pointer
-  `}
-`;
-
 const Button = styled.button`
   ${tw`
     w-full
@@ -106,14 +77,15 @@ const Signin: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const onSubmit: SubmitHandler<IUser> = useCallback(async (user) => {
-    const { payload, type } = await dispatch(signin(user));
+    const { payload, type } = await dispatch(registerNewUser(user));
 
     if (/rejected$/.test(type)) {
       toast.error(payload as string, { position: 'bottom-right' });
       dispatch(resetHelperStates());
     }
     if (/fulfilled$/.test(type)) {
-      navigate('/', { replace: true });
+      toast.success('Registered successfully', { position: 'bottom-right' });
+      navigate('/signin', { replace: true });
     }
   }, []);
 
@@ -125,13 +97,8 @@ const Signin: FC = () => {
   return (
     <Section>
       <Container>
-        <Demo>
-          <FontAwesomeIcon icon={faCircleInfo} className="text-xl" />
-          &emsp; Use email:&nbsp;<strong>john.doe@gmail.com</strong>&nbsp;/&nbsp;password:&nbsp;
-          <strong>letmein</strong>
-        </Demo>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Text>Sign in</Text>
+          <Text>Register</Text>
           <div>
             <label htmlFor="email">Email</label>
             <TextField type="email" placeholder="Email" {...register('email')} required />
@@ -140,10 +107,7 @@ const Signin: FC = () => {
             <label htmlFor="password">Password</label>
             <TextField type="password" placeholder="Password" {...register('password')} required />
           </div>
-          <HelperText onClick={() => navigate('/register', { replace: true })}>
-            Don&apos;t have an account?
-          </HelperText>
-          <Button type="submit">Sign In</Button>
+          <Button type="submit">Register</Button>
         </Form>
       </Container>
     </Section>
