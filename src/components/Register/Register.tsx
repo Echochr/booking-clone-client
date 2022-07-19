@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate, Navigate } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 
 import { AppDispatch, RootState } from '../../app/store';
 import { IUser } from '../../providers/auth/AuthContext';
@@ -65,6 +66,7 @@ const Button = styled.button`
     w-full
     text-center
     text-white
+    font-semibold
     rounded-sm
     py-2.5
     bg-[#0071c2]
@@ -89,7 +91,7 @@ const Signin: FC = () => {
     }
   }, []);
 
-  const { isSignedIn } = useSelector((state: RootState) => state.auth);
+  const { isSignedIn, isLoading } = useSelector((state: RootState) => state.auth);
   if (isSignedIn) {
     return <Navigate to="/" replace />;
   }
@@ -107,7 +109,7 @@ const Signin: FC = () => {
             <label htmlFor="password">Password</label>
             <TextField type="password" placeholder="Password" {...register('password')} required />
           </div>
-          <Button type="submit">Register</Button>
+          <Button type="submit">{isLoading ? <BeatLoader size="5" color="#fff" /> : 'Register'}</Button>
         </Form>
       </Container>
     </Section>

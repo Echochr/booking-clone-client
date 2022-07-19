@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { BeatLoader } from 'react-spinners';
 
 import { AppDispatch, RootState } from '../../app/store';
 import { IUser } from '../../providers/auth/AuthContext';
@@ -94,6 +95,7 @@ const Button = styled.button`
     w-full
     text-center
     text-white
+    font-semibold
     rounded-sm
     py-2.5
     bg-[#0071c2]
@@ -117,7 +119,7 @@ const Signin: FC = () => {
     }
   }, []);
 
-  const { isSignedIn } = useSelector((state: RootState) => state.auth);
+  const { isSignedIn, isLoading } = useSelector((state: RootState) => state.auth);
   if (isSignedIn) {
     return <Navigate to="/" replace />;
   }
@@ -143,7 +145,7 @@ const Signin: FC = () => {
           <HelperText onClick={() => navigate('/register', { replace: true })}>
             Don&apos;t have an account?
           </HelperText>
-          <Button type="submit">Sign In</Button>
+          <Button type="submit">{isLoading ? <BeatLoader size="5" color="#fff" /> : 'Sign In'}</Button>
         </Form>
       </Container>
     </Section>
