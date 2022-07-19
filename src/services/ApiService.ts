@@ -1,11 +1,10 @@
 import axios from 'axios';
+
+import { BASE_URL } from '../constants/ApiUrl';
 import { IHotelQuery } from '../components/Hotels';
 
-// const BASE_URL = 'https://booking-clone-server.herokuapp.com/api/v1';
-
 const fetchData = async (path: string) => {
-  // return axios.get(`${BASE_URL}${path}`).then(({ data }) => data);
-  return axios.get(path).then(({ data }) => data);
+  return axios.get(BASE_URL + path).then(({ data }) => data);
 };
 
 export async function getPropertyCountByCity() {
