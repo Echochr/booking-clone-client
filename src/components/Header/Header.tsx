@@ -29,23 +29,24 @@ const HeaderContainer = styled.div`
 const HeaderList = styled.ul`
   ${tw`
     flex
+    items-center
     gap-10
   `}
 `;
 
 const ListItem = styled.div`
-  :first-child {
-    ${tw`
-      border-white
-      border-[1px]
-      rounded-3xl
-      p-2.5
-    `}
-  }
   ${tw`
     flex
     gap-2
     items-center
+    p-3
+    rounded-3xl
+    cursor-pointer
+    hover:border-white
+    hover:bg-white/20
+
+    transition
+    duration-200
   `}
 `;
 
