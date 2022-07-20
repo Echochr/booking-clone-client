@@ -5,14 +5,14 @@ import { toast } from 'react-toastify';
 
 import { RootState } from '../app/store';
 
-const ProtectedOutlet: FC = () => {
-  const { userId } = useSelector((state: RootState) => state.auth);
+const AdminProtectedOutlet: FC = () => {
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
 
-  if (!userId) {
+  if (!userId || !isAdmin) {
     toast.error('Access denied', { position: 'bottom-right' });
   }
 
-  return userId ? <Outlet /> : <Navigate to="/" replace />;
+  return (userId && isAdmin) ? <Outlet /> : <Navigate to="/" replace />;
 };
 
-export default ProtectedOutlet;
+export default AdminProtectedOutlet;

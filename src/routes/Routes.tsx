@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Skeleton from '../layouts/Skeleton';
-import ProtectedOutlet from './ProtectedOutlet';
+import AdminProtectedOutlet from './AdminProtectedOutlet';
 import Home from '../components/Home';
 import Hotels from '../components/Hotels';
 import Hotel from '../components/Hotel';
@@ -23,7 +23,7 @@ const Router: FC = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/hotels" element={<Hotels />} />
-            <Route path="/hotels" element={<ProtectedOutlet />}>
+            <Route path="/hotels" element={<AdminProtectedOutlet />}>
               <Route path="new" element={<NewProperty />} />
             </Route>
             <Route path="/hotel/:id" element={<Hotel />} />

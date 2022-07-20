@@ -57,7 +57,7 @@ const NavButton = styled.button`
 
 const Navbar: FC = () => {
   const navigate = useNavigate();
-  const { isSignedIn } = useSelector((state: RootState) => state.auth);
+  const { isSignedIn, isAdmin } = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch<AppDispatch>();
   const handleSignout = useCallback(async () => {
@@ -70,6 +70,7 @@ const Navbar: FC = () => {
       <SubContainer>
         <Logo onClick={() => navigate('/', { replace: true })}>Booking</Logo>
         <NavItems>
+          {isAdmin && <NavButton onClick={() => navigate('/hotels/new')}>+ Add New Property</NavButton>}
           {!isSignedIn && <NavButton onClick={() => navigate('/register')}>Register</NavButton>}
           {!isSignedIn && <NavButton onClick={() => navigate('/signin')}>Sign In</NavButton>}
           {isSignedIn && <NavButton onClick={handleSignout}>Sign Out</NavButton>}

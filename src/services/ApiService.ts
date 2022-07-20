@@ -2,9 +2,17 @@ import axios from 'axios';
 
 import { BASE_URL } from '../constants/ApiUrl';
 import { IHotelQuery } from '../components/Hotels';
+import { IHotel } from '../interface/hotels.interface';
 
 const fetchData = async (path: string) => {
   return axios.get(BASE_URL + path).then(({ data }) => data);
+};
+
+const postData = async (path: string, payload: any) => {
+  const config = {
+    withCredentials: true,
+  };
+  return axios.post(BASE_URL + path, payload, config).then(({ data }) => data);
 };
 
 export async function getPropertyCountByCity() {
@@ -34,4 +42,8 @@ export async function getHotelById(hotelId: string) {
 
 export async function getAllFeaturedHotels() {
   return fetchData('/hotels?featured=true&limit=4&sort=city');
+}
+
+export async function createNewProperty(hotel: IHotel) {
+  return postData('/hotels', hotel);
 }
