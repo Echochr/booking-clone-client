@@ -22,9 +22,9 @@ export async function getPropertyCountByType() {
 export async function getAllHotels(hotelQuery: IHotelQuery) {
   const query = new URLSearchParams();
   const { city, min, max } = hotelQuery;
+  query.set('min', min.toString());
+  query.set('max', max.toString());
   if (city) query.set('city', city);
-  if (min) query.set('min', min.toString());
-  if (max) query.set('max', max.toString());
   return fetchData(`/hotels?${query.toString()}`);
 }
 

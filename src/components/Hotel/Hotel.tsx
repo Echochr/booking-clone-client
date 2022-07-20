@@ -6,7 +6,10 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
+import { differenceInDays } from 'date-fns'
+import { useSelector } from 'react-redux';
 
+import { RootState } from '../../app/store';
 import GalleryImages from '../../constants/HotelPhotos';
 import { getHotelById } from '../../services/ApiService';
 import NotFound from '../NotFound';
@@ -142,6 +145,9 @@ const CTADiv = styled.div`
 `;
 
 const Hotel: FC = () => {
+  const { dateRange } = useSelector((state: RootState) => state.search);
+  const daysDifference = differenceInDays(dateRange[0].endDate || new Date(), dateRange[0].startDate || new Date()) || 1;
+
   const { id } = useParams();
   const { data: hotel, isLoading, error } = useQuery('hotelDetails', () => getHotelById(id as string));
 
@@ -181,9 +187,9 @@ const Hotel: FC = () => {
             </DescriptionText>
           </Description>
           <CTADiv>
-            <span className="font-extrabold text-lg text-gray-700">Perfect for a 4-night stay!</span>
+            <span className="font-extrabold text-lg text-gray-700">Perfect for a {daysDifference}-night stay!</span>
             <p className="text-sm text-gray-600">{hotel.description}, this property has a great rating of {hotel.rating}</p>
-            <p className="text-xl"><span className="font-extrabold">${hotel.cheapestPrice * 4}</span> (4 nights)</p>
+            <p className="text-xl"><span className="font-extrabold">${hotel.cheapestPrice * daysDifference}</span>&emsp;<small>{daysDifference} night(s)</small></p>
             <CTAButton>Reserve or Book Now!</CTAButton>
           </CTADiv>
         </LowerSection>

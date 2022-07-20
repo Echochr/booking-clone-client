@@ -8,6 +8,10 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { AppDispatch } from '../../app/store';
+import { newSearch } from '../../features/search/searchSlice';
 
 const Container = styled.div`
   ${tw`
@@ -37,6 +41,7 @@ const SearchItem = styled.div`
 
   input, span {
     ${tw`
+      capitalize
       border-none
       focus:outline-none
       text-gray-500
@@ -191,8 +196,10 @@ const Searchbar: FC = () => {
   const endDateDisplay = format(dateRange[0].endDate || new Date(), 'dd/MM/yyyy');
 
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const handleSearch = useCallback(() => {
-    navigate('hotels', { state: { destination, dateRange, options }});
+    dispatch(newSearch({ destination, dateRange, options }));
+    navigate('hotels');
   }, [destination, dateRange, options]);
 
   return (
@@ -228,7 +235,7 @@ const Searchbar: FC = () => {
             <OptionsControlGroup>
               <OptionsButton
                 onClick={() => handleOptionsChange('adult', 'dec')}
-                disabled={options.adult === 1}
+                disabled={options.adult <= 1}
               >
                 -
               </OptionsButton>
@@ -241,7 +248,7 @@ const Searchbar: FC = () => {
             <OptionsControlGroup>
               <OptionsButton
                 onClick={() => handleOptionsChange('children', 'dec')}
-                disabled={options.children === 0}
+                disabled={options.children <= 0}
               >
                 -
               </OptionsButton>
@@ -254,7 +261,7 @@ const Searchbar: FC = () => {
             <OptionsControlGroup>
               <OptionsButton
                 onClick={() => handleOptionsChange('room', 'dec')}
-                disabled={options.room === 1}
+                disabled={options.room <= 1}
               >
                 -
               </OptionsButton>

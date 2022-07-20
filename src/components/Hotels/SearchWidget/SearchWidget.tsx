@@ -1,12 +1,14 @@
 import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { RootState, AppDispatch } from '../../../app/store';
+import { newSearch } from '../../../features/search/searchSlice';
 import { IDateRange, defaultDateRange, IOptions, defaultOptions } from '../../Searchbar';
 
 const Container = styled.div`
@@ -99,6 +101,17 @@ const OptionsInput = styled.input`
   `}
 `;
 
+const ResetButton = styled.button`
+  ${tw`
+    w-full
+    bg-[#0071c2]
+    text-white
+    font-semibold
+    py-1
+    rounded-sm
+  `}
+`;
+
 const SearchButton = styled.button`
   ${tw`
     w-full
@@ -106,9 +119,7 @@ const SearchButton = styled.button`
     text-white
     font-semibold
     py-2.5
-    mt-4
     rounded-sm
-
   `}
 `;
 
@@ -116,25 +127,54 @@ interface ISearchWidget {
   handleSearch: (destination: string, min: number, max: number) => void;
 }
 
+type OptionsName = 'adult' | 'children' | 'room';
+
 const SearchWidget: FC<ISearchWidget> = ({ handleSearch }) => {
-  const { state }: any = useLocation();
-  const [destination, setDestination] = useState(state?.destination || '');
-  const [dateRange, setDateRange] = useState<IDateRange[]>(state?.dateRange || defaultDateRange);
-  const [options, setOptions] = useState<IOptions>(state?.options || defaultOptions);
-  const [minPrice, setMinPrice] = useState(1);
-  const [maxPrice, setMaxPrice] = useState(9999);
+  const search = useSelector((state: RootState) => state.search);
+  const [destination, setDestination] = useState(search.destination || '');
+  const [dateRange, setDateRange] = useState<IDateRange[]>(search?.dateRange || defaultDateRange);
+  const [options, setOptions] = useState<IOptions>(search?.options || defaultOptions);
+  const handleOptionsChange = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>, name: OptionsName) => {
+      setOptions({
+        ...options,
+        [name]: parseInt(evt.target.value, 10),
+      });
+  }, [options]);
+
+  const [minPrice, setMinPrice] = useState(search.min);
+  const [maxPrice, setMaxPrice] = useState(search.max);
 
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const handleOpenDatePicker = useCallback(() => {
     setOpenDatePicker(!openDatePicker);
   }, [openDatePicker]);
 
+  const dispatch = useDispatch<AppDispatch>();
+  const handleSearchButtonClick = useCallback(() => {
+    dispatch(newSearch({ destination, dateRange, options, min: minPrice, max: maxPrice }));
+    handleSearch(destination, minPrice, maxPrice);
+  }, [destination, dateRange, options, minPrice, maxPrice]);
+
+  const handleReset = useCallback(() => {
+    setDestination('');
+    setDateRange(defaultDateRange);
+    setOptions(defaultOptions);
+    setMinPrice(1);
+    setMaxPrice(999);
+  }, [defaultDateRange, defaultOptions]);
+
   return (
     <Container>
       <Title>Search</Title>
       <Item>
         <Label>Destination/property name:</Label>
-        <Input type="text" placeholder="Where are you going?" defaultValue={destination} onChange={(evt) => setDestination(evt.target.value)} />
+        <Input
+          type="text"
+          placeholder="Where are you going?"
+          value={destination}
+          onChange={(evt) => setDestination(evt.target.value)}
+        />
       </Item>
       <Item>
         <Label>Check-in date</Label>
@@ -160,36 +200,56 @@ const SearchWidget: FC<ISearchWidget> = ({ handleSearch }) => {
             <OptionsLabel>Min price <small>(per night)</small></OptionsLabel>
             <OptionsInput
               type="number"
+              value={minPrice}
               min={1}
               max={999}
-              onChange={(evt) => setMinPrice(Number(evt.target.value))}
+              onChange={(evt) => setMinPrice(parseInt(evt.target.value, 10))}
             />
           </OptionsItem>
           <OptionsItem>
             <OptionsLabel>Max price <small>(per night)</small></OptionsLabel>
             <OptionsInput
               type="number"
+              value={maxPrice}
               min={1}
               max={999}
-              onChange={(evt) => setMaxPrice(Number(evt.target.value))}
+              onChange={(evt) => setMaxPrice(parseInt(evt.target.value, 10))}
             />
           </OptionsItem>
           <OptionsItem>
             <OptionsLabel>Adult</OptionsLabel>
-            <OptionsInput type="number" defaultValue={options.adult} min={1} />
+            <OptionsInput
+              type="number"
+              value={options.adult}
+              min={1}
+              onChange={(evt) => handleOptionsChange(evt, 'adult')}
+            />
           </OptionsItem>
           <OptionsItem>
             <OptionsLabel>Children</OptionsLabel>
-            <OptionsInput type="number" defaultValue={options.children} min={0} />
+            <OptionsInput
+              type="number"
+              value={options.children}
+              min={0}
+              onChange={(evt) => handleOptionsChange(evt, 'children')}
+            />
           </OptionsItem>
           <OptionsItem>
             <OptionsLabel>Room</OptionsLabel>
-            <OptionsInput type="number" defaultValue={options.room} min={1} />
+            <OptionsInput
+              type="number"
+              value={options.room}
+              min={1}
+              onChange={(evt) => handleOptionsChange(evt, 'room')}
+            />
           </OptionsItem>
         </OptionsContainer>
       </Item>
       <Item>
-        <SearchButton onClick={() => handleSearch(destination, minPrice, maxPrice)}>
+        <ResetButton type="button" onClick={handleReset}>Reset</ResetButton>
+      </Item>
+      <Item>
+        <SearchButton type="button" onClick={handleSearchButtonClick}>
           Search
         </SearchButton>
       </Item>
