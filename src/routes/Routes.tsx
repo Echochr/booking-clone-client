@@ -11,7 +11,7 @@ import Hotel from '../components/Hotel';
 import NotFound from '../components/NotFound';
 import Register from '../components/Register';
 import Signin from '../components/Signin';
-import NewProperty from '../components/NewProperty';
+import PropertyForm from '../components/PropertyForm';
 
 const Router: FC = () => {
   return (
@@ -24,7 +24,8 @@ const Router: FC = () => {
             <Route path="/signin" element={<Signin />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/hotels" element={<AdminProtectedOutlet />}>
-              <Route path="new" element={<NewProperty />} />
+              <Route path="new" element={<PropertyForm />} />
+              <Route path="edit/:id" element={<PropertyForm />} />
             </Route>
             <Route path="/hotel/:id" element={<Hotel />} />
             <Route path="/*" element={<NotFound />} />

@@ -1,13 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
 import { differenceInDays } from 'date-fns'
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { RootState } from '../../app/store';
 import GalleryImages from '../../constants/HotelPhotos';
@@ -145,10 +146,22 @@ const CTADiv = styled.div`
 `;
 
 const Hotel: FC = () => {
+  const { isSignedIn, isAdmin } = useSelector((state: RootState) => state.auth);
   const { dateRange } = useSelector((state: RootState) => state.search);
   const daysDifference = differenceInDays(dateRange[0].endDate || new Date(), dateRange[0].startDate || new Date()) || 1;
 
   const { id } = useParams();
+  const navigate = useNavigate();
+  const handleCTAButtonClick = useCallback(() => {
+    if (!isSignedIn) {
+      return toast.warning('Sign in to begin booking!', { position: 'bottom-right' });
+    }
+  }, [isSignedIn]);
+  
+  const handleGotoEditPage = useCallback(() => {
+    navigate(`/hotels/edit/${id}`);
+  }, [id]);
+  
   const { data: hotel, isLoading, error } = useQuery('hotelDetails', () => getHotelById(id as string));
 
   if (isLoading) {
@@ -172,7 +185,10 @@ const Hotel: FC = () => {
             <Location>Excellent location - {hotel.distance}m from center</Location>
             <Highlight>Book a stay over ${hotel.cheapestPrice} at this property and get a free airport taxi</Highlight>
           </HotelInfo>
-          <CTAButton>Reserve or Book Now!</CTAButton>
+          {isAdmin
+            ? <CTAButton type="button" onClick={handleGotoEditPage}>Edit Property</CTAButton>
+            : <CTAButton type="button" onClick={handleCTAButtonClick}>Reserve or Book Now!</CTAButton>
+          }
         </TopSection>
         <Gallery>
           {GalleryImages.map((image, idx) => <GalleryImage src={image.src} key={idx} />)}
@@ -188,9 +204,9 @@ const Hotel: FC = () => {
           </Description>
           <CTADiv>
             <span className="font-extrabold text-lg text-gray-700">Perfect for a {daysDifference}-night stay!</span>
-            <p className="text-sm text-gray-600">{hotel.description}, this property has a great rating of {hotel.rating}</p>
+            <p className="text-sm text-gray-600">{hotel.description}. This property has a great rating of <strong>{hotel.rating}</strong>!</p>
             <p className="text-xl"><span className="font-extrabold">${hotel.cheapestPrice * daysDifference}</span>&emsp;<small>{daysDifference} night(s)</small></p>
-            <CTAButton>Reserve or Book Now!</CTAButton>
+            <CTAButton type="button" onClick={handleCTAButtonClick}>Reserve or Book Now!</CTAButton>
           </CTADiv>
         </LowerSection>
       </Container>

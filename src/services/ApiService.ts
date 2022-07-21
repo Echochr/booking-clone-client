@@ -3,16 +3,22 @@ import axios from 'axios';
 import { BASE_URL } from '../constants/ApiUrl';
 import { IHotelQuery } from '../components/Hotels';
 import { IHotel } from '../interface/hotels.interface';
+import { IUpdatePayload } from '../interface/dto.interface';
+
+const config = {
+  withCredentials: true,
+};
 
 const fetchData = async (path: string) => {
   return axios.get(BASE_URL + path).then(({ data }) => data);
 };
 
 const postData = async (path: string, payload: any) => {
-  const config = {
-    withCredentials: true,
-  };
   return axios.post(BASE_URL + path, payload, config).then(({ data }) => data);
+};
+
+const updateData = async (path: string, payload: any) => {
+  return axios.put(BASE_URL + path, payload, config).then(({ data }) => data);
 };
 
 export async function getPropertyCountByCity() {
@@ -46,4 +52,8 @@ export async function getAllFeaturedHotels() {
 
 export async function createNewProperty(hotel: IHotel) {
   return postData('/hotels', hotel);
+}
+
+export async function updateProperty(payload: IUpdatePayload) {
+  return updateData(`/hotels/${payload.id}`, payload.hotel);
 }
