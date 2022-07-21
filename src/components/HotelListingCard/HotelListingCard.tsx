@@ -155,7 +155,7 @@ const HotelListingCard: FC<IHotelListingCard> = ({ hotel }) => {
       <Image src={IMAGES.HotelListingCardDefault} />
       <Information>
         <HotelName>{hotel.name}</HotelName>
-        <span>{hotel.distance / 1000}km from center</span>
+        <span>{(hotel.distance / 1000).toFixed(1)}km from center</span>
         <Tag>Free airport taxi</Tag>
         <BoldText>{hotel.description}</BoldText>
         <span>Entire studio・1 bath room・21m<sup>2</sup> 1 full bed</span>

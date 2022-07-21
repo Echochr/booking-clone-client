@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -10,6 +10,7 @@ import { BeatLoader } from 'react-spinners';
 import { IHotel } from '../../interface/hotels.interface';
 import { IUpdatePayload } from '../../interface/dto.interface';
 import { createNewProperty, getHotelById, updateProperty } from '../../services/ApiService';
+import NotFound from '../NotFound';
 
 const Section = styled.section`
   ${tw`
@@ -97,28 +98,24 @@ const PropertyForm: FC = () => {
 
   const navigate = useNavigate();
   const { id: hotelId } = useParams();
-  const { data: hotelInfo, isLoading: isFetchingInfo } = useQuery(
+  const { data: hotelInfo, isLoading: isFetchingInfo, isError } = useQuery(
     ['hotel', hotelId],
-    () => getHotelById(hotelId as string),
-    { enabled: !!hotelId && isEditingMode, refetchOnMount: false, refetchOnWindowFocus: false },
+    () => getHotelById(hotelId as string), { enabled: !!hotelId, refetchOnWindowFocus: false },
   );
 
   const { register, setValue, handleSubmit } = useForm<IHotel>();
-  const [isDataFetched, setIsDataFetched] = useState(false);
   useEffect(() => {
     if (!hotelInfo) return;
-    if (isDataFetched === false) {
-      setIsDataFetched(true);
-      setValue('name', hotelInfo.name);
-      setValue('description', hotelInfo.description);
-      setValue('city', hotelInfo.city);
-      setValue('address', hotelInfo.address);
-      setValue('type', hotelInfo.type);
-      setValue('distance', hotelInfo.distance);
-      setValue('cheapestPrice', hotelInfo.cheapestPrice);
-      setValue('rating', hotelInfo.rating);
-    }
-  }, [hotelInfo, isDataFetched]);
+
+    setValue('name', hotelInfo.name);
+    setValue('description', hotelInfo.description);
+    setValue('city', hotelInfo.city);
+    setValue('address', hotelInfo.address);
+    setValue('type', hotelInfo.type);
+    setValue('distance', hotelInfo.distance);
+    setValue('cheapestPrice', hotelInfo.cheapestPrice);
+    setValue('rating', hotelInfo.rating);
+  }, [hotelInfo]);
 
   const { isLoading: isSubmittingNew, mutate: mutateSubmitNew } = useMutation(createNewProperty, {
     onSuccess: () => {
@@ -159,6 +156,10 @@ const PropertyForm: FC = () => {
 
   if (isFetchingInfo) {
     return <BeatLoader color="#0071c2" />;
+  }
+
+  if (isError) {
+    return <NotFound />;
   }
 
   return (
