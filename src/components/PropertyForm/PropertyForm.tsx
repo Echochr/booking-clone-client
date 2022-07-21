@@ -237,7 +237,7 @@ const PropertyForm: FC = () => {
               {...register('rating')}
             />
           </div>
-          <Button type="submit" disabled={isSubmittingNew}>
+          <Button type="submit" disabled={isSubmittingNew || isEditing}>
             {isSubmittingNew || isEditing ? <BeatLoader size="5px" color="#fff" /> : 'Submit'}
           </Button>
         </Form>
