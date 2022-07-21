@@ -21,6 +21,10 @@ const updateData = async (path: string, payload: any) => {
   return axios.put(BASE_URL + path, payload, config).then(({ data }) => data);
 };
 
+const deleteData = async (path: string) => {
+  return axios.delete(BASE_URL + path, config).then(({ data }) => data);
+}
+
 export async function getPropertyCountByCity() {
   const query = new URLSearchParams();
   query.set('cities', 'Barcelona,London,Bali');
@@ -56,4 +60,8 @@ export async function createNewProperty(hotel: IHotel) {
 
 export async function updateProperty(payload: IUpdatePayload) {
   return updateData(`/hotels/${payload.id}`, payload.hotel);
+}
+
+export async function deleteProperty(id: string) {
+  return deleteData(`/hotels/${id}`);
 }

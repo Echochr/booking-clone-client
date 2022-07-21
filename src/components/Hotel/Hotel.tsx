@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
 import { differenceInDays } from 'date-fns'
@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 
 import { RootState } from '../../app/store';
 import GalleryImages from '../../constants/HotelPhotos';
-import { getHotelById } from '../../services/ApiService';
+import { deleteProperty, getHotelById } from '../../services/ApiService';
 import NotFound from '../NotFound';
 
 const Section = styled.section`
@@ -36,6 +36,13 @@ const TopSection = styled.div`
     justify-between
     items-start
     gap-4
+  `}
+`;
+
+const CTAGroup = styled.div`
+  ${tw`
+    flex
+    gap-2.5
   `}
 `;
 
@@ -82,6 +89,17 @@ const Highlight = styled.span`
 const CTAButton = styled.button`
   ${tw`
     bg-[#0071c2]
+    text-white
+    font-bold
+    py-2
+    px-6
+    rounded-md
+  `}
+`;
+
+const DeleteButton = styled.button`
+  ${tw`
+    bg-red-600
     text-white
     font-bold
     py-2
@@ -164,6 +182,19 @@ const Hotel: FC = () => {
   
   const { data: hotel, isLoading, error } = useQuery('hotelDetails', () => getHotelById(id as string));
 
+  const { mutate: mutateDeleteProperty } = useMutation(deleteProperty, {
+    onSuccess: () => {
+      toast.success('Property deleted', { position: 'bottom-right' });
+      navigate('/hotels', { replace: true });
+    },
+    onError: (err: any) => {
+      const { message } = err.response.data;
+      toast.error(message || 'Something went wrong', { position: 'bottom-right' });
+    },
+  });
+
+  const handleDelete = useCallback(() => mutateDeleteProperty(id as string), [id]);
+
   if (isLoading) {
     return <BeatLoader color="#0071c2" />
   }
@@ -185,10 +216,13 @@ const Hotel: FC = () => {
             <Location>Excellent location - {hotel.distance}m from center</Location>
             <Highlight>Book a stay over ${hotel.cheapestPrice} at this property and get a free airport taxi</Highlight>
           </HotelInfo>
-          {isAdmin
-            ? <CTAButton type="button" onClick={handleGotoEditPage}>Edit Property</CTAButton>
-            : <CTAButton type="button" onClick={handleCTAButtonClick}>Reserve or Book Now!</CTAButton>
-          }
+          <CTAGroup>
+            {isAdmin
+              ? <CTAButton type="button" onClick={handleGotoEditPage}>Edit Property</CTAButton>
+              : <CTAButton type="button" onClick={handleCTAButtonClick}>Reserve or Book Now!</CTAButton>
+            }
+            {isAdmin && <DeleteButton type="button" onClick={handleDelete}>Delete Property</DeleteButton>}
+          </CTAGroup>
         </TopSection>
         <Gallery>
           {GalleryImages.map((image, idx) => <GalleryImage src={image.src} key={idx} />)}

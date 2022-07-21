@@ -120,6 +120,7 @@ const PropertyForm: FC = () => {
   const { isLoading: isSubmittingNew, mutate: mutateSubmitNew } = useMutation(createNewProperty, {
     onSuccess: () => {
       toast.success('New property added successfully', { position: 'bottom-right' });
+      navigate('/hotels');
     },
     onError: (err: any) => {
       const { message } = err.response.data;
