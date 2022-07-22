@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import IMAGES from '../../constants/Images';
 import { IHotel } from '../../interface/hotels.interface';
 import { getAllFeaturedHotels } from '../../services/ApiService';
+import { ratingsLookup } from '../../utils/ratingsLookup';
 
 const Heading = styled.h4`
   ${tw`
@@ -81,19 +82,6 @@ const Badge = styled.div`
   `}
 `;
 
-const RatingsLookup = (rating: number | undefined) => {
-  if (rating === undefined)
-    return 'Good';
-  if (rating >= 9.5)
-    return 'Exceptional';
-  else if (rating >= 9.0)
-    return 'Wonderful';
-  else if (rating >= 8.0)
-    return 'Excellent';
-  else
-    return 'Good';
-}
-
 const Featured: FC = () => {
   const { data: featured } = useQuery('featuredHotels', getAllFeaturedHotels);
   const imgList = [IMAGES.BaliProp1, IMAGES.BarcelonaProp1, IMAGES.LondonProp1, IMAGES.ParisProp1];
@@ -110,7 +98,7 @@ const Featured: FC = () => {
             <Price>Starting from ${hotel.cheapestPrice}</Price>
             <Ratings>
               <Badge>{hotel.rating}</Badge>
-              <span>{RatingsLookup(hotel.rating)}</span>
+              <span>{ratingsLookup(hotel.rating)}</span>
               <span>{Math.floor(Math.random() * 250)} reviews</span>
             </Ratings>
           </Item>

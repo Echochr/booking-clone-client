@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import IMAGES from '../../constants/Images';
 import { IHotel } from '../../interface/hotels.interface';
+import { ratingsLookup } from '../../utils/ratingsLookup';
 
 const Card = styled.div`
   border: 1px solid;
@@ -164,7 +165,7 @@ const HotelListingCard: FC<IHotelListingCard> = ({ hotel }) => {
       </Information>
       <ExtraInfo>
         <Ratings>
-          <span>Excellent</span>
+          <span>{ratingsLookup(hotel.rating)}</span>
           <Badge>{hotel.rating}</Badge>
         </Ratings>
         <CTADiv>
